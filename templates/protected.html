@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grades Dashboard</title>
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+    crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="col-lg-8 mx-auto p-3 py-md-5">
+    <main>
+      {% for message in get_flashed_messages()%}
+      {{ message }}
+      {% endfor %}
+      <h1>Grades Dashboard</h1>
+      <p class="fs-5 col-md-8">This page allows you to manage your information in the Grades Dashboard database.
+        You can add, edit, and delete information in the database using the controls below.
+      </p>
+      <h4>Steps to success:</h4>
+      <ol class="mb-5 col-md-8">
+        <li>Activate Grades Dashboard for your Google Assistant account</li>
+        <li>Ask Grades Dashboard using a phone to check a grade, it will provide a link to this website</li>
+        <li>Create an account as explained below</li>
+        <li>Enter your classes and synonyms under <span class="fw-bold">Edit Classes</span></li>
+        <li>Enter your current reporting term under <span class="fw-bold">Set Term</span></li>
+        <li>Once again, ask Grades Dashboard to check a grade</li>
+        <li>If everything is correctly configured, it will tell you your grade!</li>
+      </ol>
+      <hr class="col-3 col-md-2 mb-5">
+      <div class="row g-5">
+        <div class="col-md-12">
+          <h2>Account Information</h2>
+          <p>
+          <ul>
+            <li><span class="fw-bold">Email</span> your <span class="fw-bold">Google Account email</span> that you use
+              with Google Assistant</li>
+            <li><span class="fw-bold">Username:</span> the username or ID that you use to sign in to PowerSchool</li>
+            <li><span class="fw-bold">Password</span> the password that you use to sign in to PowerSchool</li>
+            <li><span class="fw-bold">Base URL:</span> where you go to check PowerSchool, for example, <span
+                class="font-monospace">https://ps.district.org</span></li>
+          </ul>
+          It is reccomended to use HTTPS at the start of your Base URL so that requests are guaranteed to be secure.
+          </p>
+          <form role="form" action="/set_user_info" method="POST">
+            <div class="form-floating col-md-4 mb-3">
+              <input type="email" id="create_email" name="email" placeholder="email@example.com" class="form-control"
+                disabled readonly>
+              <label for="email">{{ user_email }}</label>
+              <small id="emailHelp" class="form-text text-muted">Your email will not be shared.</small>
+            </div>
+            <div class="form-group form-floating col-md-4 mb-3">
+              <input type="text" id="create_username" name="username" placeholder="Username" class="form-control"
+                value="{{ user_username }}">
+              <label for="username">Username</label>
+            </div>
+            <div class="form-group form-floating col-md-4 mb-3">
+              <input type="url" id="create_base_url" name="base_url" placeholder="https://powerschool.district.org"
+                class="form-control" value="{{ user_base_url }}">
+              <label for="base_url">Base URL</label>
+            </div>
+            <input type="submit" value="Save" class="btn btn-primary mb-3">
+            <div class="alert alert-primary" role="alert">
+              When you click the "Save" button, your information will be saved in the Dashboard
+              database. Then you can use Dashboard through Google Assistant.
+            </div>
+          </form>
+        </div>
+      </div>
+      <hr class="col-3 col-md-2 mb-5">
+      <div class="row g-5">
+        <div class="col-md-12">
+          <h2>Edit Classes</h2>
+          <p>To edit your classes, make sure that you have registered above first. Then, enter your email and
+            PowerSchool password below. Finally, add rows below to create a mapping between the
+            class names that appear in PowerSchool, for example <span class="fst-italic">(H) Organic Chemistry</span> or
+            <span class="fst-italic">AP Physics: C:
+              Mechanics</span> and the synonyms from the list below that you want to use. The <span
+              class="fst-italic">Class Name</span> field must be exactly what appears in PowerSchool. The <span
+              class="fst-italic">Class synonyms</span>
+            field must be comma separated (no spaces) and all lowercase. An example is provided in the first row for
+            you.
+          </p>
+          <h5>Available synonyms</h5>
+          <div class="row">
+            <div class="col-md-6">
+              <ul>
+                <li>engineering</li>
+                <li>science</li>
+                <li>environmental_science</li>
+                <li>chemistry</li>
+                <li>biology</li>
+                <li>organic_chemistry</li>
+                <li>physics</li>
+                <li>math</li>
+                <li>calculus</li>
+                <li>statistics</li>
+                <li>literature</li>
+                <li>english</li>
+                <li>history</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <ul>
+                <li>music</li>
+                <li>choir</li>
+                <li>band</li>
+                <li>orchestra</li>
+                <li>art</li>
+                <li>french</li>
+                <li>spanish</li>
+                <li>german</li>
+                <li>language</li>
+                <li>drama</li>
+                <li>dance</li>
+                <li>physical_education</li>
+              </ul>
+            </div>
+          </div>
+          <p>
+            These synonyms are <span class="fw-bold">lowercase only</span>. You can stack these synonyms if you want
+            them to refer to the same class, for example <span
+              class="font-monospace"></span>["physics","science"]</span>. In
+            addition, each synonym has multiple ways to be said and recognized by Google Assistant. For example, the
+            <span class="font-monospace">art</span> synonym can be said as
+            <span class="fst-italic">art, pottery, clay, digital art, and AP art</span>.
+          </p>
+          <p>
+            Do you say something another way? Send an email to <a
+              href="mailto:picoplanetdev@gmail.com">picoplanetdev@gmail.com</a> and it will be
+            added to the list.
+          </p>
+          <form action="/edit_classes" method="POST" role="form">
+            <div id="inputFormRow">
+              <div class="input-group mb-3">
+                <input type="text" name="class_name_0" class="form-control" placeholder="Class name" value="Class name">
+                <input type="text" name="class_synonyms_0" class="form-control" placeholder="Class synonyms"
+                  value="synonym1,synonym2">
+                <div class="input-group-append">
+                  <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
+                </div>
+              </div>
+            </div>
+            <div id="newRow"></div>
+            <button id="addRow" type="button" class="btn btn-secondary mb-3">Add Class</button>
+            <br>
+            <input type="submit" value="Update Classes" class="btn btn-primary mb-3">
+          </form>
+          <div class="alert alert-primary" role="alert">
+            When you click the "Update" button, any current classes associated with your email will be replaced with the
+            new classes in the box above.
+          </div>
+        </div>
+      </div>
+      <hr class="col-3 col-md-2 mb-5">
+      <div class="row g-5">
+        <div class="col-md-12">
+          <h2>Set Term</h2>
+          <p>
+            Please type the term string exactly as it appears in PowerSchool, for example
+            <span class="font-monospace">Q1</span> or <span class="font-monospace">S2</span>.
+          </p>
+          <form action="/set_term" method="POST" role="form">
+            <div class="form-floating col-md-4 mb-3">
+              <input type="text" id="term_term" name="term" class="form-control" placeholder="Term"
+                value="{{ user_term }}">
+              <label for="term">Term</label>
+            </div>
+            <input type="submit" value="Set Term" class="btn btn-primary mb-3">
+          </form>
+          <div class="alert alert-primary" role="alert">
+            When you click the "Set Term" button, your term information will be saved to the Grades Dashboard database.
+          </div>
+        </div>
+      </div>
+      <hr class="col-3 col-md-2 mb-5">
+      <div class="row g-5">
+        <div class="col-md-12">
+          <h2 class="text-danger">Delete User</h2>
+          <form action="/delete_user" method="POST" role="form">
+            <div class="form-floating col-md-4 mb-3">
+              <input type="password" id="delete_password" name="password" placeholder="Password" class="form-control">
+              <label for="password">Password</label>
+            </div>
+            <input type="submit" value="Delete" class="btn btn-danger mb-3">
+          </form>
+          <div class="alert alert-danger" role="alert">
+            When you click the "Delete" button, your information will be deleted from the Dashboard
+            database. <span class="fw-bold">To use Grades Dashboard again, you will need to re-register.</span>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="pt-5 my-5 text-muted border-top">
+      &copy; 2022 &middot; Sigmond Kukla
+    </footer>
+  </div>
+  <script src="js/classes_dynamic_form.js" type="text/javascript"></script>
+</body>
+
+</html>

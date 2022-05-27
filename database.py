@@ -15,7 +15,7 @@ DATABASE_PATH = os.environ.get("DATABASE_PATH")
 # ------------------------------- Create tables ------------------------------ #
 def create_users_table():
     """Create a users table if it doesn't exist, will also create database.db if it doesn't exist"""
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("""
         CREATE TABLE IF NOT EXISTS users (
@@ -28,7 +28,7 @@ def create_users_table():
 
 def create_classes_table():
     """Create a classes table if it doesn't exist, will also create database.db if it doesn't exist"""
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("""
         CREATE TABLE IF NOT EXISTS classes (
@@ -40,7 +40,7 @@ def create_classes_table():
 
 def create_terms_table():
     """Create a terms table if it doesn't exist, will also create database.db if it doesn't exist"""
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("""
         CREATE TABLE IF NOT EXISTS terms (
@@ -51,7 +51,7 @@ def create_terms_table():
 
 def create_recovery_table():
     """Create a recovery codes table if it doesn't exist, will also create database.db if it doesn't exist"""
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("""
         CREATE TABLE IF NOT EXISTS recovery (
@@ -69,13 +69,13 @@ def create_tables():
 
 # -------------------------------- User table -------------------------------- #
 def add_user_to_database(email, username, password, base_url):
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     # Add user to database
     with con:
         con.execute("INSERT INTO users VALUES (?, ?, ?, ?)", (email, username, password, base_url))
 
 def get_user_from_database(email):
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM users WHERE email = ?", (email,))
         for row in data: return row[1], row[2], row[3] # Hopefully there is just one email
@@ -89,12 +89,12 @@ def set_user_info(email, username, base_url):
         username (str): Username of the user
         base_url (str): Base url of the user
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("UPDATE users SET username = ?, base_url = ? WHERE email = ?", (username, base_url, email))
 
 def delete_user_from_database(email):
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     # Password must also be provided to delete a user
     with con:
         con.execute("DELETE FROM users WHERE email = ?", (email,))
@@ -108,7 +108,7 @@ def check_user_exists(email):
     Returns:
         bool: Whether the user exists
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM users WHERE email = ?", (email,))
         for row in data: return True
@@ -125,7 +125,7 @@ def verify_email_and_password(email, password):
     Returns:
         bool: Whether the user is allowed to perform an action
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM users WHERE email = ? AND password = ?", (email, password))
         for row in data: return True # If a row exists where the email and password match, return True
@@ -139,7 +139,7 @@ def add_term_to_database(email, term):
         email (str): Email address of the user
         term (str): Term from the form
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("INSERT INTO terms VALUES (?, ?)", (email, term))
 
@@ -149,7 +149,7 @@ def delete_term_from_database(email):
     Args:
         email (str): Email to delete terms for
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("DELETE FROM terms WHERE email = ?", (email,))
 
@@ -162,7 +162,7 @@ def get_term_from_database(email):
     Returns:
         str: Term set for the user
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM terms WHERE email = ?", (email,))
         for row in data: return row[1]
@@ -175,7 +175,7 @@ def add_classes_to_database(email, classes):
         email (str): Email address of the user to add classes to
         classes (dict): Classes to be added to the user
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         for class_name in classes:
             for synonym in classes[class_name]:
@@ -187,7 +187,7 @@ def remove_classes_from_database(email):
     Args:
         email (str): Email address of the user to remove classes from
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("DELETE FROM classes WHERE email = ?", (email,))
 
@@ -201,7 +201,7 @@ def evaluate_class_from_synonym(email, synonym):
     Returns:
         str: Class name as it appears in PowerSchool
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM classes WHERE email = ? AND synonym = ?", (email, synonym))
         for row in data: return row[1] # If a row exists where the email and synonym match, return the class
@@ -214,7 +214,7 @@ def add_recovery_to_database(email, recovery_code):
         email (str): Email address of the user
         recovery_code (int): Term from the form
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("INSERT INTO recovery VALUES (?, ?)", (email, recovery_code))
 
@@ -224,7 +224,7 @@ def delete_recovery_from_database(email):
     Args:
         email (str): Email to delete terms for
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         con.execute("DELETE FROM recovery WHERE email = ?", (email,))
 
@@ -237,7 +237,7 @@ def get_code_from_database(email):
     Returns:
         int: Recovery code for the user
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM recovery WHERE email = ?", (email,))
         for row in data: return row[1]
@@ -248,7 +248,7 @@ def verify_recovery(email, code):
     Args:
         email (str): Email address of the user
     """    
-    con = sql.connect('.data/database.db')
+    con = sql.connect(DATABASE_PATH)
     with con:
         data = con.execute("SELECT * FROM recovery WHERE email = ? AND recovery_code = ?", (email, code))
         for row in data: return True # If a row exists where the email and recovery code match, return True

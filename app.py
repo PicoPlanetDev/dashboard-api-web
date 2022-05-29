@@ -80,8 +80,9 @@ def protected():
     # return 'Logged in as: ' + flask_login.current_user.id
     user_email = flask_login.current_user.id
     user_username, user_password, user_base_url = database.get_user_from_database(user_email)
+    user_stripped_base_url = user_base_url.replace('https://', '')
     user_term = database.get_term_from_database(user_email)
-    return flask.render_template('protected.html', user_email=user_email, user_username=user_username, user_base_url=user_base_url, user_term=user_term)
+    return flask.render_template('protected.html', user_email=user_email, user_username=user_username, user_base_url=user_base_url, user_stripped_base_url=user_stripped_base_url, user_term=user_term)
 
 @app.route('/logout')
 def logout():
@@ -117,7 +118,8 @@ def set_user_info():
     user_email = flask_login.current_user.id
     user_name = flask.request.form['username']
     user_base_url = flask.request.form['base_url']
-    database.set_user_info(user_email, user_name, user_base_url)
+    user_base_url_https = "https://".join(user_base_url)
+    database.set_user_info(user_email, user_name, user_base_url_https)
     # Flash bootstrap alert
     flash_alert('User info updated', 'success')
     return flask.redirect(flask.url_for('protected'))

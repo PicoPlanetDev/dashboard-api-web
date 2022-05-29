@@ -13,6 +13,12 @@
     integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  <style>
+    .input-group .form-floating input {
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
+    }
+  </style>
 </head>
 
 <body>
@@ -63,9 +69,10 @@
             <li><span class="fw-bold">Username:</span> the username or ID that you use to sign in to PowerSchool</li>
             <li><span class="fw-bold">Password</span> the password that you use to sign in to PowerSchool</li>
             <li><span class="fw-bold">Base URL:</span> where you go to check PowerSchool, for example, <span
-                class="font-monospace">https://ps.district.org</span></li>
+                class="font-monospace">ps.district.org</span> or <span
+                class="font-monospace">district.powerschool.com</span>. Omit any subdirectories like <span
+                class="font-monospace">/home.html</span>.</li>
           </ul>
-          It is reccomended to use HTTPS at the start of your Base URL so that requests are guaranteed to be secure.
           </p>
           <form role="form" action="/set_user_info" method="POST">
             <div class="form-floating col-md-4 mb-3">
@@ -79,10 +86,17 @@
                 value="{{ user_username }}">
               <label for="username">Username</label>
             </div>
-            <div class="form-group form-floating col-md-4 mb-3">
-              <input type="url" id="create_base_url" name="base_url" placeholder="https://powerschool.district.org"
-                class="form-control" value="{{ user_base_url }}">
-              <label for="base_url">Base URL</label>
+            <div class="form-group col-md-4 mb-3">
+              <div class="input-group">
+                <span class="input-group-text" id="basic-addon3">https://</span>
+                <div class="form-floating col">
+                  <input type="text" id="create_base_url" name="base_url" placeholder="https://powerschool.district.org"
+                    class="form-control" value="{{ user_stripped_base_url }}"
+                    pattern="^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$"
+                    title="HTTPS is already added for you. Please enter the URL that you access PowerSchool with.">
+                  <label for="base_url">Base URL</label>
+                </div>
+              </div>
             </div>
             <input type="submit" value="Save" class="btn btn-primary mb-3">
             <div class="alert alert-primary" role="alert">

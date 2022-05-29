@@ -12,6 +12,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
     crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 </head>
 
 <body>
@@ -143,8 +144,7 @@
           </div>
           <p>
             These synonyms are <span class="fw-bold">lowercase only</span>. You can stack these synonyms if you want
-            them to refer to the same class, for example <span
-              class="font-monospace"></span>["physics","science"]</span>. In
+            them to refer to the same class, for example <span class="font-monospace"></span>physics,science</span>. In
             addition, each synonym has multiple ways to be said and recognized by Google Assistant. For example, the
             <span class="font-monospace">art</span> synonym can be said as
             <span class="fst-italic">art, pottery, clay, digital art, and AP art</span>.
@@ -159,8 +159,8 @@
               <div class="input-group mb-3">
                 <input type="text" name="class_name_0" class="form-control" placeholder="Class name" value="Class name">
                 <input type="text" name="class_synonyms_0" class="form-control" placeholder="Class synonyms"
-                  value="synonym1,synonym2">
-                <div class="input-group-append">
+                  value="synonym1,synonym2" pattern="\S+$" title="Please separeate synonyms with commas only.">
+                <div class=" input-group-append">
                   <button id="removeRow" type="button" class="btn btn-danger">Remove</button>
                 </div>
               </div>

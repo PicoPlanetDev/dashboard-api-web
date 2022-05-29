@@ -15,8 +15,25 @@
 </head>
 
 <body>
+  <!-- Header -->
+  <div class="container">
+    <header
+      class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-3 border-bottom">
+      <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="/static/img/grades-dashboard.png" alt="Grades Dashboard Icon" width="64">
+      </a>
+
+      <span class="fs-4">Grades Dashboard</span>
+
+      <div class="col-md-3 text-end">
+        <a href="/logout" class="btn btn-outline-primary me-2">Log Out</a>
+      </div>
+    </header>
+  </div>
+  <!-- Content -->
   <div class="col-lg-8 mx-auto p-3 py-md-5">
     <main>
+      <!-- Flash message -->
       {% for message in get_flashed_messages()%}
       {{ message }}
       {% endfor %}

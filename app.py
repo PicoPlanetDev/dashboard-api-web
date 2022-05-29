@@ -112,12 +112,6 @@ def flash_alert(message, category):
     alert = flask.Markup('<div class="alert alert-{} alert-dismissible fade show" role="alert">{}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'.format(category, message))
     return flask.flash(alert)
 
-def render_protected():
-    user_email = flask_login.current_user.id
-    user_username, user_password, user_base_url = database.get_user_from_database(user_email)
-    user_term = database.get_term_from_database(user_email)
-    return flask.render_template('protected.html', user_email=user_email, user_username=user_username, user_base_url=user_base_url, user_term=user_term)
-
 @app.route('/set_user_info', methods=['POST'])
 def set_user_info():
     user_email = flask_login.current_user.id
@@ -126,7 +120,7 @@ def set_user_info():
     database.set_user_info(user_email, user_name, user_base_url)
     # Flash bootstrap alert
     flash_alert('User info updated', 'success')
-    return render_protected()
+    return flask.redirect(flask.url_for('protected'))
 
 @app.route('/set_term', methods=['POST'])
 def set_term():
@@ -137,7 +131,7 @@ def set_term():
     database.add_term_to_database(user_email, term)
     # Flash bootstrap alert
     flash_alert('Term updated', 'success')
-    return render_protected()
+    return flask.redirect(flask.url_for('protected'))
 
 @app.route('/delete_user', methods=['POST'])
 def delete_user():
@@ -151,7 +145,7 @@ def delete_user():
 
     # Flash bootstrap alert
     flash_alert('User deleted', 'danger')
-    return flask.render_template('index.html')
+    return flask.redirect(flask.url_for('index'))
 
 
 @app.route('/edit_classes', methods=['POST'])
@@ -172,7 +166,7 @@ def edit_classes():
     database.remove_classes_from_database(email)
     database.add_classes_to_database(email, classes) # Add the new classes to the database
     flash_alert('Classes updated', 'success')
-    return render_protected()
+    return flask.redirect(flask.url_for('protected'))
 
 @app.route('/reset_password', methods=['POST'])
 def reset_password():
@@ -180,7 +174,7 @@ def reset_password():
     password = flask.request.form['password']
     database.set_password(email, password)
     flash_alert('Password updated', 'success')
-    return render_protected()
+    return flask.redirect(flask.url_for('protected'))
 
 # EMAIL_OAUTH_CREDS_PATH = 'oauth2_creds.json'
 # WEB_INTERFACE_URL = '/'

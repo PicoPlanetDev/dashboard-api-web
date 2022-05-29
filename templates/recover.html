@@ -75,7 +75,17 @@
     {{ message }}
     {% endfor %}
     <main class="form-signin w-100 m-auto">
-        <form action="/generate_recovery_code" method="post" class="mb-5">
+        <p>
+            <strong>Forgot your password?</strong>
+            Your password is the same that you use to sign in to PowerSchool for your school district.
+        </p>
+        <p>
+            If you still can't remember because your PowerSchool password has changed, send an email to <a
+                href="mailto:picoplanetdev@gmail.com">picoplanetdev@gmail.com</a> from
+            the email address you used to register and your current account will be deleted, allowing you to sign up
+            again.
+        </p>
+        <!-- <form action="/generate_recovery_code" method="post" class="mb-5">
             <a href="/"><img class="mb-4" src="static/img/grades-dashboard.png" width="100"></a>
             <h1 class="h3 mb-3 fw-normal">Send Recovery Code</h1>
 
@@ -110,7 +120,7 @@
             </div>
 
             <button class="w-100 btn btn-lg btn-primary" type="submit">Reset Password</button>
-        </form>
+        </form> -->
     </main>
 </body>
 

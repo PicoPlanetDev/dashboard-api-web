@@ -174,6 +174,14 @@ def edit_classes():
     flash_alert('Classes updated', 'success')
     return render_protected()
 
+@app.route('/reset_password', methods=['POST'])
+def reset_password():
+    email = flask_login.current_user.id
+    password = flask.request.form['password']
+    database.set_password(email, password)
+    flash_alert('Password updated', 'success')
+    return render_protected()
+
 # EMAIL_OAUTH_CREDS_PATH = 'oauth2_creds.json'
 # WEB_INTERFACE_URL = '/'
 

@@ -183,11 +183,34 @@
       <hr class="col-3 col-md-2 mb-5">
       <div class="row g-5">
         <div class="col-md-12">
+          <h2 class="text-warning">Change Password</h2>
+          <p>
+            The password that you use to sign in to Grades Dashboard here is the same that you use for PowerSchool. If
+            your PowerSchool password is changed, you will need to update your password here.
+          </p>
+          <form action="/reset_password" method="POST" role="form">
+            <div class="form-floating col-md-4 mb-3">
+              <input type="password" id="reset_password_password" name="password" class="form-control"
+                placeholder="New Password">
+              <label for="reset_password_password">New Password</label>
+            </div>
+            <input type="submit" value="Change Password" class="btn btn-warning mb-3">
+          </form>
+          <div class="alert alert-warning" role="alert">
+            When you click the "Change Password" button, your old password will be replaced with the new password in the
+            Grades Dashboard database.
+          </div>
+        </div>
+      </div>
+      <hr class="col-3 col-md-2 mb-5">
+      <div class="row g-5">
+        <div class="col-md-12">
           <h2 class="text-danger">Delete User</h2>
           <form action="/delete_user" method="POST" role="form">
             <div class="form-floating col-md-4 mb-3">
-              <input type="password" id="delete_password" name="password" placeholder="Password" class="form-control">
-              <label for="password">Password</label>
+              <input type="password" id="delete_password" name="password" placeholder="Confirm Password"
+                class="form-control">
+              <label for="password">Confirm Password</label>
             </div>
             <input type="submit" value="Delete" class="btn btn-danger mb-3">
           </form>

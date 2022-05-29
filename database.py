@@ -93,6 +93,17 @@ def set_user_info(email, username, base_url):
     with con:
         con.execute("UPDATE users SET username = ?, base_url = ? WHERE email = ?", (username, base_url, email))
 
+def change_password(email, new_password):
+    """Changes the password of the user with the given email
+
+    Args:
+        email (str): Email of the user
+        new_password (str): New password of the user
+    """    
+    con = sql.connect(DATABASE_PATH)
+    with con:
+        con.execute("UPDATE users SET password = ? WHERE email = ?", (new_password, email))
+
 def delete_user_from_database(email):
     con = sql.connect(DATABASE_PATH)
     # Password must also be provided to delete a user

@@ -176,48 +176,6 @@ def reset_password():
     flash_alert('Password updated', 'success')
     return flask.redirect(flask.url_for('protected'))
 
-# EMAIL_OAUTH_CREDS_PATH = 'oauth2_creds.json'
-# WEB_INTERFACE_URL = '/'
-
-# @app.route('/generate_recovery_code', methods=['POST'])
-# def generate_recovery_code():
-#     email = flask_login.current_user.id
-#     recovery_code = random.randint(100000, 999999)
-#     database.add_recovery_to_database(email, recovery_code)
-#     yag = yagmail.SMTP('noreply.dashboard.api', oauth2_file=EMAIL_OAUTH_CREDS_PATH)
-#     contents = [
-#         "<h1>Grades Dashboard Recovery Code</h1>",
-#         "Your recovery code is <code>{}</code>".format(recovery_code),
-#         "Please enter this code in the password recovery form on the <a href={}>Grades Dashboard web interface</a>.".format(WEB_INTERFACE_URL),
-#         "This code will eventually expire. If you don't use before it expires, you will need to generate a new code.",
-#         "<br><br>Not you? Don't worry - this code will expire soon.",
-#         "<br><br>Thanks for using Grades Dashboard!"
-#     ]
-#     yag.send(email, 'Grades Dashboard Password Reset', contents)
-#     flash_alert('Recovery code generated. Check your email and enter it below.', 'primary')
-#     return flask.render_template('recover.html')
-
-# @app.route('/reset_password', methods=['POST'])
-# def reset_password():
-#     email = flask_login.current_user.id
-#     recovery_code = flask.request.form['recovery_code']
-#     new_password = flask.request.form['new_password']
-#     new_password_conf = flask.request.form['new_password_conf']
-#     if new_password != new_password_conf:
-#         flash_alert('Passwords do not match. Please try again.', 'danger')
-#         return flask.render_template('recover.html')
-#     if not database.verify_recovery(email, recovery_code):
-#         flash_alert('Invalid recovery code. Please try again.', 'danger')
-#         return flask.render_template('recover.html')
-#     database.delete_recovery_from_database(email)
-#     old_user = database.get_user_from_database(email)
-#     database.delete_user_from_database(email)
-#     new_user = [email, old_user[1], new_password, old_user[2]]
-#     database.add_user_to_database(new_user[0], new_user[1], new_user[2], new_user[3])
-    
-#     flash_alert('Password reset. You can now log in.', 'success')
-#     return flask.render_template('login.html')
-
 database.create_tables()
 
 if __name__ == '__main__':

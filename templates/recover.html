@@ -5,7 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Grades Dashboard</title>
-
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename= 'img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename= 'img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename= 'img/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename= 'img/site.webmanifest') }}">
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
@@ -86,7 +90,7 @@
             again.
         </p>
         <!-- <form action="/generate_recovery_code" method="post" class="mb-5">
-            <a href="/"><img class="mb-4" src="static/img/grades-dashboard.png" width="100"></a>
+            <a href="/"><img class="mb-4" src="{{ url_for('static', filename= 'img/grades-dashboard.png') }}" width="100"></a>
             <h1 class="h3 mb-3 fw-normal">Send Recovery Code</h1>
 
             <div class="form-floating">
